@@ -50,6 +50,7 @@ public class GmailEngine implements MailEngine {
                                     clientId, clientSecret))
                             .build()
                             .setFromTokenResponse(response))
+                    .setApplicationName("muncher-mail-api")
                     .build();
         } catch (GeneralSecurityException | IOException e) {
             throw new MailException("Error creating Gmail Object", e);
