@@ -11,7 +11,6 @@ public class MailMessage {
     private String emailAddress;
     private String to;
     private String cc;
-    private String as;
     private String subject;
 
     private String message;

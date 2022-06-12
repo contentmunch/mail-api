@@ -71,7 +71,7 @@ public class GmailEngine implements MailEngine {
         MimeMessageHelper helper = new MimeMessageHelper(email, message.getFile1() != null);
         helper.setTo(message.getTo() == null ? mailConfig.getFrom() : message.getTo());
         helper.setCc(message.getCc() == null ? mailConfig.getCc() : message.getCc());
-        helper.setFrom(message.getAs() == null ? mailConfig.getFrom() : message.getAs());
+        helper.setFrom(mailConfig.getFrom());
         helper.setSubject(message.getSubject() == null ? mailConfig.getSubject() : message.getSubject());
         helper.setText(message.getMessage());
         helper.setReplyTo(message.getEmailAddress());

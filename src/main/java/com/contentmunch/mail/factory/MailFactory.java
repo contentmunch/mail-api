@@ -5,7 +5,7 @@ import com.contentmunch.mail.engine.GmailEngine;
 import com.contentmunch.mail.engine.MailEngine;
 
 public class MailFactory {
-    public static MailEngine getDefaultMailFactory(MailConfig mailConfig) {
+    public static MailEngine getDefaultMailEngine(MailConfig mailConfig) {
         return new GmailEngine(mailConfig);
     }
 }
