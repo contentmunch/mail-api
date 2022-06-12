@@ -1,12 +1,10 @@
 package com.contentmunch.mail.data;
 
 import lombok.Data;
-import lombok.experimental.SuperBuilder;
 import org.springframework.web.multipart.MultipartFile;
 
 
 @Data
-@SuperBuilder
 public class MailMessage {
     public static final String NEWLINE_WITH_TAB = "\n\r";
     private String name;
