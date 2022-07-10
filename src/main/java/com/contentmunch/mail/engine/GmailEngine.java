@@ -70,12 +70,12 @@ public class GmailEngine implements MailEngine {
     private MimeMessage from(MailMessage message) throws MessagingException, IOException {
         final MimeMessage email = new MimeMessage(getDefaultInstance(new Properties(), null));
         MimeMessageHelper helper = new MimeMessageHelper(email, message.getFile1() != null);
-        helper.setTo(message.getTo() == null ? mailConfig.getFrom() : message.getTo());
+        helper.setTo(message.getTo());
         helper.setCc(message.getCc() == null ? mailConfig.getCc() : message.getCc());
         helper.setFrom(mailConfig.getFrom());
-        helper.setSubject(message.getSubject() == null ? mailConfig.getSubject() : message.getSubject());
+        helper.setSubject(message.getSubject());
         helper.setText(message.getMessage());
-        helper.setReplyTo(message.getEmailAddress());
+        helper.setReplyTo(message.getReplyTo());
 
         if (message.getFile1() != null) {
             helper.addAttachment(Objects.requireNonNull(message.getFile1().getOriginalFilename()), FileUtils.from(message.getFile1()));

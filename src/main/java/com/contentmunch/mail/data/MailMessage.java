@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class MailMessage {
     public static final String NEWLINE_WITH_TAB = "\n\r";
     private String name;
-    private String emailAddress;
+    private String replyTo;
     private String to;
     private String cc;
     private String subject;
@@ -22,6 +22,6 @@ public class MailMessage {
     @Override
     public String toString() {
 
-        return subject + " by " + name + NEWLINE_WITH_TAB + " email: " + emailAddress + NEWLINE_WITH_TAB + "message";
+        return subject + " by " + name + NEWLINE_WITH_TAB + " email: " + replyTo + NEWLINE_WITH_TAB + "message";
     }
 }

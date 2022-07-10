@@ -15,6 +15,5 @@ public class MailConfig {
     private String tokenServer;
     private String from;
     private String cc;
-    private String subject;
 
 }
