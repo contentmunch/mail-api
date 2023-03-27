@@ -9,8 +9,7 @@ import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.http.BasicAuthentication;
 import com.google.api.client.http.GenericUrl;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.Base64;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -24,6 +23,7 @@ import java.util.Objects;
 import java.util.Properties;
 
 import static com.google.api.client.googleapis.javanet.GoogleNetHttpTransport.newTrustedTransport;
+import static com.google.common.io.BaseEncoding.base64;
 import static javax.mail.Session.getDefaultInstance;
 
 
@@ -40,10 +40,10 @@ public class GmailEngine implements MailEngine {
         TokenResponse response = new TokenResponse();
         response.setRefreshToken(refreshToken);
         try {
-            return new Gmail.Builder(newTrustedTransport(), JacksonFactory.getDefaultInstance(),
+            return new Gmail.Builder(newTrustedTransport(), GsonFactory.getDefaultInstance(),
                     new Credential.Builder(BearerToken.authorizationHeaderAccessMethod()).setTransport(
                                     newTrustedTransport())
-                            .setJsonFactory(JacksonFactory.getDefaultInstance())
+                            .setJsonFactory(GsonFactory.getDefaultInstance())
                             .setTokenServerUrl(
                                     new GenericUrl(mailConfig.getTokenServer()))
                             .setClientAuthentication(new BasicAuthentication(
@@ -61,7 +61,7 @@ public class GmailEngine implements MailEngine {
         final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         emailContent.writeTo(buffer);
         final byte[] bytes = buffer.toByteArray();
-        final String encodedEmail = Base64.encodeBase64URLSafeString(bytes);
+        final String encodedEmail = base64().encode(bytes);
         final Message message = new Message();
         message.setRaw(encodedEmail);
         return message;
@@ -71,11 +71,16 @@ public class GmailEngine implements MailEngine {
         final MimeMessage email = new MimeMessage(getDefaultInstance(new Properties(), null));
         MimeMessageHelper helper = new MimeMessageHelper(email, message.getFile1() != null);
         helper.setTo(message.getTo());
-        helper.setCc(message.getCc() == null ? mailConfig.getCc() : message.getCc());
+
+        if (message.getCc() != null || mailConfig.getCc() != null)
+            helper.setCc(message.getCc() == null ? mailConfig.getCc() : message.getCc());
+
         helper.setFrom(mailConfig.getFrom());
         helper.setSubject(message.getSubject());
         helper.setText(message.getMessage());
-        helper.setReplyTo(message.getReplyTo());
+
+        if (message.getReplyTo() != null)
+            helper.setReplyTo(message.getReplyTo());
 
         if (message.getFile1() != null) {
             helper.addAttachment(Objects.requireNonNull(message.getFile1().getOriginalFilename()), FileUtils.from(message.getFile1()));
