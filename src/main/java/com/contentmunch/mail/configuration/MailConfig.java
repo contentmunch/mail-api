@@ -16,5 +16,6 @@ public class MailConfig {
     private String from;
     private String cc;
     private String backup;
+    private String fromName;
 
 }

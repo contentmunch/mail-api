@@ -74,8 +74,11 @@ public class GmailEngine implements MailEngine {
 
         if (message.getCc() != null || mailConfig.getCc() != null)
             helper.setCc(message.getCc() == null ? mailConfig.getCc() : message.getCc());
+        if (mailConfig.getFromName() != null)
+            helper.setFrom(mailConfig.getFrom(), mailConfig.getFromName());
+        else
+            helper.setFrom(mailConfig.getFrom());
 
-        helper.setFrom(mailConfig.getFrom());
         helper.setSubject(message.getSubject());
         helper.setText(message.getMessage());
 
