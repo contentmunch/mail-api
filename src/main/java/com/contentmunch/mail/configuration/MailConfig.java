@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "muncher.mail")
 public class MailConfig {
-
     private String clientId;
     private String clientSecret;
     private String refreshToken;
