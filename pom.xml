@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.contentmunch</groupId>
 	<artifactId>mail-api</artifactId>
-    <version>1.0.10.RELEASE</version>
+    <version>1.0.12.RELEASE</version>
 	<name>mail-api</name>
 	<description>Mail api</description>
 	<properties>
