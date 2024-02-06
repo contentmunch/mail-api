@@ -72,8 +72,10 @@ public class GmailEngine implements MailEngine {
         MimeMessageHelper helper = new MimeMessageHelper(email, message.getFile1() != null);
         helper.setTo(message.getTo());
 
+        //do not add cc if both the message and config does not have cc.
         if (message.getCc() != null || mailConfig.getCc() != null)
             helper.setCc(message.getCc() == null ? mailConfig.getCc() : message.getCc());
+
         if (mailConfig.getFromName() != null)
             helper.setFrom(mailConfig.getFrom(), mailConfig.getFromName());
         else
