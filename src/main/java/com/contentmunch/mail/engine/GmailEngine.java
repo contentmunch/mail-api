@@ -12,10 +12,11 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -24,7 +25,6 @@ import java.util.Properties;
 
 import static com.google.api.client.googleapis.javanet.GoogleNetHttpTransport.newTrustedTransport;
 import static com.google.common.io.BaseEncoding.base64;
-import static javax.mail.Session.getDefaultInstance;
 
 
 public class GmailEngine implements MailEngine {
@@ -68,7 +68,7 @@ public class GmailEngine implements MailEngine {
     }
 
     private MimeMessage from(MailMessage message) throws MessagingException, IOException {
-        final MimeMessage email = new MimeMessage(getDefaultInstance(new Properties(), null));
+        final MimeMessage email = new MimeMessage(Session.getDefaultInstance(new Properties(), null));
         MimeMessageHelper helper = new MimeMessageHelper(email, message.getFile1() != null);
         helper.setTo(message.getTo());
 
